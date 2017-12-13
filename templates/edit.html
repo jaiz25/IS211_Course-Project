@@ -1,0 +1,61 @@
+<html>
+  <head>
+      <title>Edit post</title>
+  </head>
+
+<body>
+    <div>
+    <style>
+        .tftable {font-size:12px;color:#333333;display:inline-block;width:500px;border-width: 1px;border-color:
+        #729ea5;border-collapse: collapse; margin-right:20px;}
+        .tftable th {font-size:12px;background-color:#acc8cc;border-width: 1px;padding: 8px;border-style:
+        solid;border-color: #729ea5;text-align:left;width:200px;}
+        .tftable tr {background-color:#d4e3e5;width:200px;}
+        .tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color:
+        #729ea5;width:300px;} .tftable tr:hover {background-color:#ffffff;}
+    </style>
+    <table class="tftable" border="1">
+        <tr>
+            <td align="center" colspan="2"><B>ENTRIES</B></td>
+        </tr>
+        <tr>
+            <th>Title</th>
+            <th>Text</th>
+        </tr>
+        {% for e in edits %}
+        <tr>
+            <td>{{ e[1] }}</td>
+            <td>{{ e[2] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    </div>
+  {% if session.logged_in %}
+
+<a href="{{ url_for('welcome') }}">See entries</a>
+<div>
+    <style>
+        .tftable {font-size:12px;color:#333333;display:inline-block;width:400px;border-width: 1px;border-color:
+        #729ea5;border-collapse: collapse; margin-right:20px;}
+        .tftable th {font-size:12px;background-color:#acc8cc;border-width: 1px;padding: 8px;border-style:
+        solid;border-color: #729ea5;text-align:left;width:400px;}
+        .tftable tr {background-color:#d4e3e5;width:400px;}
+        .tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color:
+        #729ea5;width:400px;} .tftable tr:hover {background-color:#ffffff;}
+    </style>
+    {% for e in edits %}
+        <form action="{{ url_for('edit_entry', id = e[0]) }}" method=post class=edit-entry>
+
+        <dl>
+        <dt>Title:
+        <dd><input type=text size=30 name=title>
+        <dt>Text:
+        <dd><textarea name=text rows=5 cols=40></textarea>
+        <dd><input type=submit value=Share>
+        </dl>
+    {% endfor %}
+        </form>
+
+  {% endif %}
+
+</body>

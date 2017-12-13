@@ -1,0 +1,55 @@
+{% extends "index.html" %}
+{% block body %}
+  {% if session.logged_in %}
+
+<a href="{{ url_for('welcome') }}">See entries</a>
+<div>
+    <style>
+        .tftable {font-size:12px;color:#333333;display:inline-block;width:400px;border-width: 1px;border-color:
+        #729ea5;border-collapse: collapse; margin-right:20px;}
+        .tftable th {font-size:12px;background-color:#acc8cc;border-width: 1px;padding: 8px;border-style:
+        solid;border-color: #729ea5;text-align:left;width:400px;}
+        .tftable tr {background-color:#d4e3e5;width:400px;}
+        .tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color:
+        #729ea5;width:400px;} .tftable tr:hover {background-color:#ffffff;}
+    </style>
+    <table class="tftable" border="1">
+        <tr>
+            <td align="center" colspan="4"><B>ENTRIES</B></td>
+        </tr>
+        <tr>
+            <th>Title</th>
+            <th colspan="2">Action</th>
+        </tr>
+        {% for entry in entries %}
+        <tr>
+            <td>{{ entry[1] }}</td>
+            <td>
+            <form action="{{ url_for('delete_entry') }}" method=post class=delete-entry>
+            <input type="hidden" name="entry_id" value="{{ entry[0] }}">
+                <input type="submit" value="Delete" /></form></td>
+            <td> <a href="{{ url_for('entry_id', id = entry[0]) }}">edit</a></td>
+        </tr>
+        {% endfor %}
+
+
+    </table>
+    <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+      <dl>
+        <p>Add a new entry below:</p>
+        <dt>Title:
+        <dd><input type=text size=30 name=title>
+        <dt>Text:
+        <dd><textarea name=text rows=5 cols=40></textarea>
+        <dd><input type=submit value=Share>
+      </dl>
+        {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+        {% endif %}
+  {% endif %}
+  <ul class=entries>
+  {% for entry in entries %}
+    <li><h2>{{ entry.title }}</h2>{{ entry.text|safe }}
+  {% endfor %}
+  </ul>
+{% endblock %}
